@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AEROPATH - Afet Navigasyon ve Koordinasyon Sistemi Kontrol Paneli">
+    <title>AEROPATH | Kontrol Paneli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="app-shell">
+
+        <!-- ====== SIDEBAR ====== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo">
+                    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 3L35 12V28L20 37L5 28V12L20 3Z" stroke="#3B82F6" stroke-width="1.2" fill="none" opacity="0.4"/>
+                        <path d="M20 8L30 14V26L20 32L10 26V14L20 8Z" stroke="#3B82F6" stroke-width="0.8" fill="none" opacity="0.2"/>
+                        <path d="M20 11L24 20L20 29L16 20L20 11Z" fill="#3B82F6" opacity="0.8"/>
+                        <path d="M20 11L24 20L20 18L16 20L20 11Z" fill="#60A5FA"/>
+                        <circle cx="20" cy="20" r="1.5" fill="#60A5FA"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">AEROPATH</span>
+                    <span class="brand-version">v3.7.1</span>
+                </div>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="dashboard" id="navDashboard">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-page="livemap" id="navLivemap">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                        <line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>
+                    </svg>
+                    <span class="nav-label">Live Map</span>
+                    <span class="nav-badge live">CANLI</span>
+                </a>
+                <a href="#" class="nav-item" data-page="tif" id="navTif">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <span class="nav-label">Görsel Analiz</span>
+                </a>
+                <a href="#" class="nav-item" data-page="settings" id="navSettings">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    <span class="nav-label">Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-divider"></div>
+                <div class="operator-info">
+                    <div class="operator-avatar">OP</div>
+                    <div class="operator-details">
+                        <span class="operator-name">Opr. Yılmaz</span>
+                        <span class="operator-role">Saha Komutanı</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ====== MAIN AREA ====== -->
+        <div class="main-area">
+
+            <!-- ====== TOP HEADER ====== -->
+            <header class="top-header" id="topHeader">
+                <div class="header-left">
+                    <div class="search-box" id="searchBox">
+                        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" class="search-input" id="searchInput" placeholder="Koordinat, bölge veya İHA ara...">
+                        <kbd class="search-kbd">/</kbd>
+                    </div>
+                </div>
+                <div class="header-center">
+                    <div class="alert-strip" id="alertStrip">
+                        <div class="alert-icon-wrap">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        </div>
+                        <div class="alert-marquee" id="alertMarquee">
+                            <span class="alert-text">⚠ KRİTİK: Sektör 7-B'de yol çökmesi tespit edildi — İHA-03 bölgeye yönlendiriliyor &nbsp;|&nbsp; Güzergâh R-14 yeniden değerlendirme altında &nbsp;|&nbsp; Deprem sonrası yapısal hasar analizi devam ediyor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="connection-status" id="connectionStatus">
+                        <span class="conn-dot"></span>
+                        <span class="conn-text">Çevrimiçi</span>
+                    </div>
+                    <div class="header-divider"></div>
+                    <div class="user-profile" id="userProfile">
+                        <div class="profile-avatar">OY</div>
+                        <svg class="profile-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ====== PAGE: DASHBOARD ====== -->
+            <main class="page-content" id="pageDashboard">
+                <div class="page-header-row">
+                    <div>
+                        <h1 class="page-title">Operasyon Özeti</h1>
+                        <p class="page-subtitle">Gerçek zamanlı afet müdahale durumu</p>
+                    </div>
+                    <div class="page-actions">
+                        <span class="last-update" id="lastUpdate">Son güncelleme: <span id="updateTime">--:--:--</span></span>
+                    </div>
+                </div>
+
+                <!-- Metric Cards -->
+                <div class="metrics-grid">
+                    <div class="metric-card" id="metricPaths">
+                        <div class="metric-icon-wrap blue">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M18 6L6 18"/><path d="M8 6h10v10"/></svg>
+                        </div>
+                        <div class="metric-body">
+                            <span class="metric-label">Taranan Toplam Yol</span>
+                            <span class="metric-value" id="metricPathsVal">1,247</span>
+                            <span class="metric-change up">+38 son 1 saatte</span>
+                        </div>
+                    </div>
+                    <div class="metric-card" id="metricRoutes">
+                        <div class="metric-icon-wrap green">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                        <div class="metric-body">
+                            <span class="metric-label">Kullanılabilir Güzergâhlar</span>
+                            <span class="metric-value green" id="metricRoutesVal">68<span class="metric-unit">%</span></span>
+                            <span class="metric-change up">+2.4% artış</span>
+                        </div>
+                    </div>
+                    <div class="metric-card" id="metricBlocked">
+                        <div class="metric-icon-wrap red">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                        </div>
+                        <div class="metric-body">
+                            <span class="metric-label">Engellenen Alanlar</span>
+                            <span class="metric-value red" id="metricBlockedVal">23</span>
+                            <span class="metric-change down">+3 yeni tespit</span>
+                        </div>
+                    </div>
+                    <div class="metric-card" id="metricDrones">
+                        <div class="metric-icon-wrap amber">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                        </div>
+                        <div class="metric-body">
+                            <span class="metric-label">Aktif İHA'lar</span>
+                            <span class="metric-value amber" id="metricDronesVal">3<span class="metric-unit">/5</span></span>
+                            <span class="metric-change neutral">2 şarjda</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="charts-row">
+                    <div class="chart-card wide">
+                        <div class="card-header">
+                            <h2 class="card-title">Zaman İçinde Tarama Kapsamı</h2>
+                            <div class="chart-legend">
+                                <span class="legend-item"><span class="legend-dot blue"></span>Taranan</span>
+                                <span class="legend-item"><span class="legend-dot green"></span>Kullanılabilir</span>
+                                <span class="legend-item"><span class="legend-dot red"></span>Engelli</span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="coverageChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card narrow">
+                        <div class="card-header">
+                            <h2 class="card-title">Son Analiz Günlükleri</h2>
+                            <span class="log-count" id="logCount">12 kayıt</span>
+                        </div>
+                        <div class="log-list" id="logList">
+                            <!-- Logs populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- ====== PAGE: LIVE MAP ====== -->
+            <main class="page-content hidden" id="pageLivemap">
+                <div class="map-wrapper">
+                    <div id="liveMapDiv"></div>
+
+                    <!-- Drone Status + Navigation Panel -->
+                    <div class="drone-panel" id="dronePanel">
+                        <div class="drone-panel-header">
+                            <h3 class="drone-panel-title">İHA Durumu</h3>
+                            <span class="drone-panel-live">● CANLI</span>
+                        </div>
+                        <div class="drone-cards" id="droneCards">
+                            <!-- Drone cards populated by JS -->
+                        </div>
+                        <button id="btnRedistribute" style="
+                            margin-top:12px; width:100%; padding:10px 0;
+                            background:linear-gradient(135deg,#1e3a5f,#1e293b);
+                            border:1px solid rgba(59,130,246,0.35);
+                            border-radius:10px; color:#60A5FA;
+                            font-family:'Inter',sans-serif; font-size:13px; font-weight:600;
+                            cursor:pointer; display:flex; align-items:center; justify-content:center;
+                            gap:8px; transition:all .2s;
+                        ">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                            Rastgele Dağıt
+                        </button>
+
+                        <!-- ── Navigasyon Bölümü ── -->
+                        <div class="nav-section">
+                            <div class="nav-section-header">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                                Navigasyon
+                            </div>
+
+                            <!-- Rota Oluştur Butonu -->
+                            <button class="route-btn" id="btnCreateRoute" onclick="startRoutePlanning()">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                                Rota Oluştur
+                            </button>
+                        </div>
+
+                        <!-- Panel içi rota özeti (droneCards gizlenince görünür) -->
+                        <div class="hidden" id="panelRouteSummary" style="margin-top:8px;">
+
+                            <!-- Başlık satırı: Geri + Algo badge + Temizle -->
+                            <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+                                <button onclick="backFromRouteSummary()" title="İHA listesine dön"
+                                    style="background:rgba(148,163,184,.12);border:1px solid rgba(148,163,184,.2);border-radius:6px;color:var(--text-muted);font-size:.6rem;font-weight:700;padding:3px 7px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:4px;">
+                                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="15 18 9 12 15 6"/></svg>
+                                    Geri
+                                </button>
+                                <div class="rs-algo-badge" id="prsAlgo">A*</div>
+                                <span style="font-size:.7rem;font-weight:700;color:var(--text-primary);flex:1;">Rota Hazır</span>
+                                <button onclick="clearRoute()" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:.85rem;" title="Rotayı Temizle">✕</button>
+                            </div>
+
+                            <!-- Rota Tipi Seçici -->
+                            <div style="margin-bottom:8px;">
+                                <div style="font-size:.55rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Rota Tipi</div>
+                                <div class="algo-toggle">
+                                    <button class="algo-btn" id="rtypeDefault" onclick="switchRouteType('default')">Varsayılan</button>
+                                    <button class="algo-btn active" id="rtypeOptimized" onclick="switchRouteType('optimized')">🛡 Engel Kaçınan</button>
+                                </div>
+                            </div>
+
+                            <!-- Algoritma Seçici (rota sonrası da geçişli) -->
+                            <div style="margin-bottom:10px;">
+                                <div style="font-size:.55rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Algoritma</div>
+                                <div class="algo-toggle">
+                                    <button class="algo-btn active" id="prsAlgoAstar" onclick="switchAlgoAndReroute('astar')">A*</button>
+                                    <button class="algo-btn" id="prsAlgoDijkstra" onclick="switchAlgoAndReroute('dijkstra')">Dijkstra</button>
+                                </div>
+                            </div>
+
+                            <!-- İstatistikler -->
+                            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:10px;">
+                                <div style="background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);border-radius:8px;padding:7px 4px;text-align:center;">
+                                    <div style="font-size:.78rem;font-weight:700;color:var(--text-primary);font-family:var(--font-mono);" id="prsDistance">—</div>
+                                    <div style="font-size:.52rem;color:var(--text-dim);text-transform:uppercase;margin-top:2px;">Mesafe</div>
+                                </div>
+                                <div style="background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);border-radius:8px;padding:7px 4px;text-align:center;">
+                                    <div style="font-size:.78rem;font-weight:700;color:var(--text-primary);font-family:var(--font-mono);" id="prsTime">—</div>
+                                    <div style="font-size:.52rem;color:var(--text-dim);text-transform:uppercase;margin-top:2px;">Süre</div>
+                                </div>
+                                <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:7px 4px;text-align:center;">
+                                    <div style="font-size:.78rem;font-weight:700;color:#f87171;font-family:var(--font-mono);" id="prsBlocked">—</div>
+                                    <div style="font-size:.52rem;color:var(--text-dim);text-transform:uppercase;margin-top:2px;">Engel</div>
+                                </div>
+                            </div>
+
+                            <!-- Algoritma Karşılaştırma Metrikleri -->
+                            <div style="border-top:1px solid rgba(148,163,184,.1);padding-top:8px;">
+                                <div style="font-size:.55rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">⚡ Algoritma Karşılaştırması</div>
+                                <div style="display:grid;grid-template-columns:auto 1fr 1fr;gap:3px 6px;font-size:.58rem;align-items:center;">
+                                    <div style="color:var(--text-dim)"></div>
+                                    <div style="color:#60A5FA;font-weight:700;text-align:center;">A*</div>
+                                    <div style="color:#a78bfa;font-weight:700;text-align:center;">Dijkstra</div>
+                                    <div style="color:var(--text-dim);">Ziyaret edilen</div>
+                                    <div style="color:var(--text-primary);font-family:var(--font-mono);text-align:center;" id="cmpNodesAstar">—</div>
+                                    <div style="color:var(--text-primary);font-family:var(--font-mono);text-align:center;" id="cmpNodesDijkstra">—</div>
+                                    <div style="color:var(--text-dim);">Süre (ms)</div>
+                                    <div style="color:var(--text-primary);font-family:var(--font-mono);text-align:center;" id="cmpTimeAstar">—</div>
+                                    <div style="color:var(--text-primary);font-family:var(--font-mono);text-align:center;" id="cmpTimeDijkstra">—</div>
+                                    <div style="color:var(--text-dim);">Rota ağırlığı</div>
+                                    <div style="color:var(--text-primary);font-family:var(--font-mono);text-align:center;" id="cmpCostAstar">—</div>
+                                    <div style="color:var(--text-primary);font-family:var(--font-mono);text-align:center;" id="cmpCostDijkstra">—</div>
+                                </div>
+                                <div style="margin-top:6px;font-size:.55rem;color:#10b981;font-style:italic;" id="cmpSummary"></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="route-info-bar hidden" id="routeInfoBar">
+                        <div class="rib-icon" id="ribIcon">📍</div>
+                        <div class="rib-text" id="ribText">Başlangıç noktasını haritada seçin</div>
+                        <button class="rib-cancel" onclick="cancelRoutePlanning()" title="İptal">✕</button>
+                    </div>
+
+                    <!-- Rota özet kartı (rota hesaplandıktan sonra görünür) -->
+                    <div class="route-summary hidden" id="routeSummary">
+                        <div class="rs-header">
+                            <div class="rs-algo-badge" id="rsAlgoBadge">A*</div>
+                            <div class="rs-title">Rota Hazır</div>
+                            <button class="rs-close" onclick="clearRoute()" title="Rotayı Temizle">✕</button>
+                        </div>
+                        <div class="rs-stats">
+                            <div class="rs-stat">
+                                <div class="rs-stat-icon">📏</div>
+                                <div>
+                                    <div class="rs-stat-val" id="rsDistance">—</div>
+                                    <div class="rs-stat-label">Mesafe</div>
+                                </div>
+                            </div>
+                            <div class="rs-stat">
+                                <div class="rs-stat-icon">⏱</div>
+                                <div>
+                                    <div class="rs-stat-val" id="rsTime">—</div>
+                                    <div class="rs-stat-label">Tahmini Süre</div>
+                                </div>
+                            </div>
+                            <div class="rs-stat">
+                                <div class="rs-stat-icon">🚧</div>
+                                <div>
+                                    <div class="rs-stat-val" id="rsBlocked">—</div>
+                                    <div class="rs-stat-label">Engel</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map Legend -->
+                    <div class="map-legend">
+                        <span class="ml-item"><span class="ml-dot green"></span>Kullanılabilir</span>
+                        <span class="ml-item"><span class="ml-dot red"></span>Engelli</span>
+                        <span class="ml-item"><span class="ml-dot gray"></span>Belirsiz</span>
+                        <span class="ml-item"><span class="ml-dot blue"></span>İHA</span>
+                    </div>
+                </div>
+            </main>
+
+
+            <!-- ====== PAGE: TIF ANALIZ ====== -->
+            <main class="page-content hidden" id="pageTif">
+                <div class="page-header-row">
+                    <div>
+                        <h1 class="page-title">Görsel Analiz</h1>
+                        <p class="page-subtitle">UAV/Drone görüntülerini PyTorch yapay zeka modeli ile analiz edin</p>
+                    </div>
+                </div>
+
+                <div class="tif-container">
+                    <!-- Sol Panel: Kontroller -->
+                    <div class="tif-controls panel-glass">
+                        <h3 class="panel-title">Kontrol Paneli</h3>
+                        
+                        <div class="upload-area" id="uploadArea">
+                            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            <p class="upload-text">Görüntü/TIF Yüklemek İçin Tıklayın<br>veya Sürükleyip Bırakın</p>
+                            <input type="file" id="tifInput" accept=".tif,.tiff,.jpg,.jpeg,.png" style="display: none;">
+                        </div>
+
+                        <div id="fileInfo" class="file-info hidden">
+                            <span class="file-name" id="fileName">ornek.tif</span>
+                            <span class="file-size" id="fileSize">12 MB</span>
+                        </div>
+
+                        <div class="form-row" style="margin-top: 20px;">
+                            <label>Maske Opaklığı (Alfa)</label>
+                            <input type="range" min="0" max="100" value="50" class="s-range" id="alphaRange">
+                            <span class="range-val" id="alphaVal">0.5</span>
+                        </div>
+
+
+
+                        <div class="form-row" style="margin-top: 15px; margin-bottom: 20px;">
+                            <label style="display:block; margin-bottom: 6px; font-size: 0.8rem; color: var(--text-dim);">Yapay Zeka Yöntemi</label>
+                            <select id="methodSelect" style="width:100%; padding: 10px; border-radius: 8px; background: rgba(15,23,42,0.6); color: white; border: 1px solid rgba(148,163,184,0.2); outline: none; font-family: 'Inter', sans-serif; cursor: pointer;">
+                                <option value="Unet">U-Net++</option>
+                                <option value="DeepLabV3+">DeepLabV3+</option>
+                                <option value="Segformer">SegFormer (Transformer)</option>
+                            </select>
+                        </div>
+
+                        <button class="btn-primary btn-full" id="btnAnalyze" disabled>
+                            <span id="btnAnalyzeText">Analizi Başlat (PyTorch)</span>
+                        </button>
+
+                        <button class="btn-secondary btn-full" id="btnCompare" style="margin-top: 10px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: #60A5FA; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s;" onclick="openComparisonModal()" disabled>
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            <span style="font-weight: 600; font-size: 0.85rem;">Yöntemleri Karşılaştır</span>
+                        </button>
+
+                        
+                        <div class="progress-container" id="progressContainer" style="display:none;">
+                            <div class="progress-text" id="progressText">Analiz hazırlanıyor...</div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" id="progressBarFill" style="width: 0%"></div>
+                            </div>
+                            <div class="progress-detail" id="progressDetail">0 / 0 Parça İşlendi</div>
+                        </div>
+
+                        <div class="ai-stats hidden" id="aiStats">
+                            <h4 class="stats-title">Sınıf Dağılımı</h4>
+                            <div class="stat-item"><span class="stat-color" style="background:#000000"></span><span class="stat-label">Arka Plan</span><span class="stat-val" id="statBg">0%</span></div>
+                            <div class="stat-item"><span class="stat-color" style="background:#0080FF"></span><span class="stat-label">Yol</span><span class="stat-val" id="statRoad">0%</span></div>
+                            <div class="stat-item"><span class="stat-color" style="background:#FF0000"></span><span class="stat-label">Hasar</span><span class="stat-val" id="statDamage">0%</span></div>
+                            <div class="stat-item"><span class="stat-color" style="background:#00FF00"></span><span class="stat-label">Araç</span><span class="stat-val" id="statVehicle">0%</span></div>
+                            
+                            <button class="btn-secondary" id="btnDownload" style="width: 100%; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                Yüksek Çözünürlüklü İndir (TIF)
+                            </button>
+                        </div>
+                        
+                        <!-- Vision Navigasyon Bölümü -->
+                        <div class="nav-section hidden" id="visionNavSection" style="margin-top:20px; border-top:1px solid rgba(255,255,255,0.05); padding-top:15px;">
+                            <div class="nav-section-header">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                                Analiz Üzeri Navigasyon
+                            </div>
+                            <button class="route-btn" id="btnVisionCreateRoute" onclick="startVisionRoutePlanning()">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                                Rota Oluştur
+                            </button>
+                        </div>
+                        
+                        <!-- Vision Rota Özet Paneli -->
+                        <div class="hidden" id="visionPanelRouteSummary" style="margin-top:8px;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                                <button onclick="cancelVisionRoutePlanning()" style="background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--text-dim);font-size:.65rem;padding:4px 8px;border-radius:6px;cursor:pointer;">&lt; Geri</button>
+                                <div class="rs-algo-badge" style="font-size:.65rem;padding:3px 8px;" id="visionRsAlgoBadge">A* Rota Hazır</div>
+                                <button onclick="clearVisionRoute()" style="background:transparent;border:none;color:var(--text-dim);cursor:pointer;">✕</button>
+                            </div>
+                            <div style="display:flex;gap:10px;margin-bottom:15px;">
+                                <div style="flex:1;">
+                                    <div style="font-size:.6rem;color:var(--text-dim);margin-bottom:4px;">ALGORİTMA</div>
+                                    <div class="algo-toggle" style="margin-bottom:0;">
+                                        <button class="algo-btn active" id="vAlgoAstar" onclick="switchVisionAlgoAndReroute('astar')">A*</button>
+                                        <button class="algo-btn" id="vAlgoDijkstra" onclick="switchVisionAlgoAndReroute('dijkstra')">Dijkstra</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rs-stats" style="margin-bottom:15px;">
+                                <div class="rs-stat"><div class="rs-stat-val" id="vRsDistance">—</div><div class="rs-stat-label">Mesafe</div></div>
+                                <div class="rs-stat"><div class="rs-stat-val" id="vRsBlocked">—</div><div class="rs-stat-label">Engel</div></div>
+                            </div>
+                            <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:10px;">
+                                <div style="font-size:.65rem; color:var(--text-dim); margin-bottom:8px; display:flex; align-items:center; gap:5px;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> ALGORİTMA KARŞILAŞTIRMASI
+                                </div>
+                                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:5px; font-size:.7rem;">
+                                    <div></div>
+                                    <div style="color:#60A5FA;font-weight:700;text-align:center;">A*</div>
+                                    <div style="color:#A78BFA;font-weight:700;text-align:center;">Dijkstra</div>
+                                    <div style="color:var(--text-dim);">Ziyaret edilen</div>
+                                    <div style="color:var(--text-primary);font-family:var(--font-mono);text-align:center;" id="vCmpNodesAstar">—</div>
+                                    <div style="color:var(--text-primary);font-family:var(--font-mono);text-align:center;" id="vCmpNodesDijkstra">—</div>
+                                    <div style="color:var(--text-dim);">Süre (ms)</div>
+                                    <div style="color:var(--text-primary);font-family:var(--font-mono);text-align:center;" id="vCmpTimeAstar">—</div>
+                                    <div style="color:var(--text-primary);font-family:var(--font-mono);text-align:center;" id="vCmpTimeDijkstra">—</div>
+                                    <div style="color:var(--text-dim);">Rota ağırlığı</div>
+                                    <div style="color:var(--text-primary);font-family:var(--font-mono);text-align:center;" id="vCmpCostAstar">—</div>
+                                    <div style="color:var(--text-primary);font-family:var(--font-mono);text-align:center;" id="vCmpCostDijkstra">—</div>
+                                </div>
+                                <div style="margin-top:6px;font-size:.55rem;color:#10b981;font-style:italic;" id="vCmpSummary"></div>
+                            </div>
+                        </div>
+                        
+                        <div id="apiStatusMsg" class="status-msg"></div>
+
+                        <!-- Backend Seçici Accordion -->
+                        <details class="backend-accordion">
+                            <summary class="backend-label" style="cursor: pointer; margin-bottom: 0;">
+                                <div style="display:flex; align-items:center; gap:6px;">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                                    Çıkarım Sunucusu (Ayarlar)
+                                </div>
+                            </summary>
+                            <div class="backend-selector" style="margin-top: 10px; border-top: none; padding-top: 0;">
+                                <div class="backend-options" id="backendOptions">
+                                    <button class="backend-opt active" data-backend="local" data-url="http://localhost:8000">
+                                        <span class="backend-icon">🖥️</span>
+                                        <div class="backend-info">
+                                            <span class="backend-name">Yerel Sunucu</span>
+                                            <span class="backend-desc">localhost:8000</span>
+                                        </div>
+                                        <span class="backend-status" id="statusLocal">●</span>
+                                    </button>
+                                    <button class="backend-opt" data-backend="modal" data-url="https://engin-orsel--aeropath-api-fastapi-app.modal.run">
+                                        <span class="backend-icon">⚡</span>
+                                        <div class="backend-info">
+                                            <span class="backend-name">Modal (T4 GPU)</span>
+                                            <span class="backend-desc">Serverless GPU — Hızlı Çıkarım</span>
+                                        </div>
+                                    </button>
+                                </div>
+                                <div class="backend-url-display" id="backendUrlDisplay">
+                                    <span id="activeBackendUrl">http://localhost:8000</span>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="tif-viewer panel-glass">
+                        <div class="viewer-header">
+                            <div class="viewer-tabs">
+                                <button class="v-tab active" id="tabOriginal">Orijinal</button>
+                                <button class="v-tab" id="tabOverlay">AI Tahmini</button>
+                            </div>
+                            <div class="viewer-zoom-controls">
+                                <button class="zoom-btn" id="zoomIn" title="Yakınlaştır">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                                </button>
+                                <button class="zoom-btn" id="zoomOut" title="Uzaklaştır">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                                </button>
+                                <button class="zoom-btn" id="zoomReset" title="Sıfırla">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="viewer-content" id="viewerContent" style="position: relative;">
+                            <div id="imgPlaceholder" class="img-placeholder">
+                                Henüz bir görüntü yüklenmedi
+                            </div>
+                            <div id="visionInfoBar" class="route-info-bar hidden" style="position: absolute; top: 20px; bottom: auto; left: 50%; transform: translateX(-50%); z-index: 50; width: auto; max-width: 80%;">
+                                <div class="rib-icon" id="vRibIcon">📍</div>
+                                <div class="rib-text" id="vRibText" style="white-space: nowrap;">Başlangıç noktasını resimde seçin</div>
+                                <button class="rib-cancel" onclick="cancelVisionRoutePlanning()" title="İptal">✕</button>
+                            </div>
+                            <img id="viewerImage" src="" class="hidden" style="transform-origin: center; transition: transform 0.1s ease; position: absolute;">
+                            <img id="viewerOverlay" src="" class="hidden" style="transform-origin: center; transition: transform 0.1s ease; position: absolute; pointer-events: none; opacity: 0.5;">
+                            <canvas id="visionRouteCanvas" class="hidden" style="transform-origin: center; transition: transform 0.1s ease; position: absolute; pointer-events: none; z-index: 10;"></canvas>
+
+                            <!-- Rota Bulunamadı Uyarısı -->
+                            <div id="visionNoRouteOverlay" class="hidden" style="
+                                position: absolute; inset: 0; z-index: 60;
+                                display: flex; align-items: center; justify-content: center;
+                                background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+                                border-radius: 12px;
+                            ">
+                                <div style="
+                                    background: linear-gradient(135deg, #1a1f2e, #151b27);
+                                    border: 1px solid rgba(239,68,68,0.5);
+                                    border-radius: 16px; padding: 28px 36px;
+                                    text-align: center; max-width: 320px;
+                                    box-shadow: 0 0 40px rgba(239,68,68,0.2);
+                                    animation: noRouteIn 0.25s ease;
+                                ">
+                                    <div style="font-size: 2.5rem; margin-bottom: 12px;">🚫</div>
+                                    <div style="font-size: 1rem; font-weight: 700; color: #f87171; margin-bottom: 8px;">Rota Oluşturulamadı</div>
+                                    <div style="font-size: 0.75rem; color: rgba(255,255,255,0.6); line-height: 1.5; margin-bottom: 20px;" id="visionNoRouteMsg">
+                                        İki nokta arasında geçilebilir yol bulunamadı.
+                                    </div>
+                                    <button onclick="hideVisionNoRoute()" style="
+                                        background: rgba(239,68,68,0.15);
+                                        border: 1px solid rgba(239,68,68,0.4);
+                                        color: #f87171; border-radius: 8px;
+                                        padding: 8px 24px; font-size: 0.75rem;
+                                        font-weight: 600; cursor: pointer;
+                                        font-family: inherit; transition: all 0.2s;
+                                    " onmouseover="this.style.background='rgba(239,68,68,0.25)'" onmouseout="this.style.background='rgba(239,68,68,0.15)'">
+                                        Tamam
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- ====== PAGE: SETTINGS ====== -->
+            <main class="page-content hidden" id="pageSettings">
+                <div class="page-header-row">
+                    <div>
+                        <h1 class="page-title">Ayarlar</h1>
+                        <p class="page-subtitle">Sistem ve kullanıcı tercihlerini yönetin</p>
+                    </div>
+                </div>
+                <div class="settings-grid">
+                    <!-- User Preferences -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <h3>Kullanıcı Tercihleri</h3>
+                        </div>
+                        <div class="form-row"><label>Operatör Adı</label><input type="text" value="Opr. Yılmaz" class="s-input"></div>
+                        <div class="form-row"><label>Rozet No</label><input type="text" value="AP-2024-0071" class="s-input" readonly></div>
+                        <div class="form-row"><label>Bildirimler</label><div class="toggle-wrap"><input type="checkbox" id="notifToggle" checked><label for="notifToggle" class="toggle-label"></label></div></div>
+                        <div class="form-row"><label>Tema</label><select class="s-select"><option>Karanlık Mod</option><option>Aydınlık Mod</option></select></div>
+                    </div>
+                    <!-- API Config -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+                            <h3>API Yapılandırması</h3>
+                        </div>
+                        <div class="form-row"><label>API Endpoint</label><input type="text" value="https://api.aeropath.gov.tr/v3" class="s-input mono"></div>
+                        <div class="form-row"><label>API Anahtarı</label><input type="password" value="sk-xxxxxxxxxxxx" class="s-input mono"></div>
+                        <div class="form-row"><label>Zaman Aşımı (ms)</label><input type="number" value="5000" class="s-input mono"></div>
+                        <div class="form-row"><label>Durum</label><span class="status-badge online">Bağlı</span></div>
+                    </div>
+                    <!-- AI Model -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                            <h3>AI Model Ayarları</h3>
+                        </div>
+                        <div class="form-row"><label>Aktif Model</label><select class="s-select"><option>AeroVision v4.2</option><option>AeroVision v3.8</option></select></div>
+                        <div class="form-row"><label>Güvenilirlik Eşiği</label><input type="range" min="50" max="99" value="85" class="s-range" id="confRange"><span class="range-val" id="confVal">85%</span></div>
+                        <div class="form-row"><label>Otomatik Analiz</label><div class="toggle-wrap"><input type="checkbox" id="autoAnalysis" checked><label for="autoAnalysis" class="toggle-label"></label></div></div>
+                    </div>
+                    <!-- Language -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            <h3>Dil Ayarları</h3>
+                        </div>
+                        <div class="form-row"><label>Arayüz Dili</label><select class="s-select"><option>Türkçe</option><option>English</option><option>Deutsch</option></select></div>
+                        <div class="form-row"><label>Tarih Formatı</label><select class="s-select"><option>GG/AA/YYYY</option><option>YYYY-MM-DD</option><option>MM/DD/YYYY</option></select></div>
+                        <div class="form-row"><label>Saat Dilimi</label><select class="s-select"><option>UTC+3 (İstanbul)</option><option>UTC+0 (Londra)</option></select></div>
+                    </div>
+                </div>
+                <div class="settings-actions">
+                    <button class="btn-secondary" id="btnResetSettings">Varsayılana Sıfırla</button>
+                    <button class="btn-primary" id="btnSaveSettings">Değişiklikleri Kaydet</button>
+                </div>
+            </main>
+
+        </div><!-- /main-area -->
+    </div><!-- /app-shell -->
+
+    <script src="https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.js"></script>
+    <script type="module" src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
+    
+    <!-- Yöntem Karşılaştırma Modalı -->
+    <div id="comparisonModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#0f172a; z-index:9999; flex-direction:column; font-family:'Inter',sans-serif;">
+        <div style="padding:15px 20px; background:#1e293b; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="color:#fff; margin:0; font-size:1.2rem; display:flex; align-items:center; gap:10px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                Yapay Zeka Yöntem Karşılaştırması
+            </h2>
+            <div style="color:var(--text-dim); font-size:0.85rem;">Yakınlaştırmak için fare tekerleğini, kaydırmak için basılı tutup sürükleyin (Senkronize çalışır).</div>
+            <button onclick="closeComparisonModal()" style="background:none; border:none; color:#ef4444; font-size:1.5rem; cursor:pointer; font-weight:bold;">&times;</button>
+        </div>
+        <div id="comparisonContainer" style="flex:1; display:flex; gap:2px; background:#000; overflow:hidden; position:relative;">
+            <!-- Dinamik olarak JS tarafından doldurulacak -->
+        </div>
+    </div>
+    <script src="js/analysis/ComparisonViewer.js"></script>
+</body>
+</html>

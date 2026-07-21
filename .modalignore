@@ -1,0 +1,20 @@
+# Modal yüklemelerini (upload) hızlandırmak için gereksiz devasa dosyaları yoksayar
+venv/
+.git/
+__pycache__/
+*.rar
+*.zip
+*.tif
+*.tiff
+
+# Veri Klasörleri (Sadece yerel bilgisayarda lazım)
+TIF/
+data/
+isleyen_veri/
+ml_core/ciktilar/
+ml_core/training/
+
+# Gereksiz ortam dosyaları
+.env
+.vscode/
+.idea/
